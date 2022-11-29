@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/constant/routes.dart';
 import 'package:my_app/views/login_view.dart';
 import 'package:my_app/views/register_view.dart';
+import 'package:my_app/views/verify_email_view.dart';
 import 'firebase_options.dart';
 import 'dart:developer' as devtools show log;
 
@@ -16,9 +17,10 @@ void main() {
       ),
       home: const HomePage(),
       routes: <String, WidgetBuilder>{
-        loginRoute: (context) => LoginView(),
-        registerRoute: (context) => RegisterView(),
-        notesRoute: (context) => NoteView(),
+        loginRoute: (context) => const LoginView(),
+        registerRoute: (context) => const RegisterView(),
+        notesRoute: (context) => const NoteView(),
+        verifyEmailRoute: (context) => const VerifyEmailView(),
       },
     ),
   );
