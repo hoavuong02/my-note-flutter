@@ -3,7 +3,7 @@ import 'package:my_app/constant/routes.dart';
 import 'package:my_app/services/auth/auth_exceptions.dart';
 import 'package:my_app/services/auth/auth_service.dart';
 
-import '../utilities/show_error_dialog.dart';
+import '../utilities/dialogs/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -75,11 +75,20 @@ class _LoginViewState extends State<LoginView> {
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil(notesRoute, (route) => false);
               } on UserNotFoundAuthException {
-                await showErrorDialog(context, 'User not found');
+                await showErrorDialog(
+                  context,
+                  'User not found',
+                );
               } on WrongPasswordAuthException {
-                await showErrorDialog(context, 'Wrong password');
+                await showErrorDialog(
+                  context,
+                  'Wrong password',
+                );
               } on GenericAuthException {
-                await showErrorDialog(context, 'Authentication error');
+                await showErrorDialog(
+                  context,
+                  'Authentication error',
+                );
               }
             },
             child: const Text('login'),
