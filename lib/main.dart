@@ -19,12 +19,13 @@ void main() {
   runApp(
     MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider<AuthBloc>(
         create: (context) => AuthBloc(FirebaseAuthProvider()),
-        child: HomePage(),
+        child: const HomePage(),
       ),
       routes: <String, WidgetBuilder>{
         createUpdateNoteRoute: (context) => const CreateUpdateNewNote(),
@@ -53,21 +54,19 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
           return const NoteView();
-        }
-        // else if (state is AuthStateNeedsVerification) {
-        //   return const VerifyEmailView();
-        // }
-        else if (state is AuthStateLoggedOut) {
+        } else if (state is AuthStateNeedsVerification) {
+          // return const VerifyEmailView();
+          return const NoteView();
+        } else if (state is AuthStateLoggedOut) {
           return const LoginView();
         } else if (state is AuthStateForgotPassword) {
           return const ForgotPasswordView();
         } else if (state is AuthStateRegistering) {
           return const RegisterView();
         } else {
-          // return Scaffold(
-          //   body: CircularProgressIndicator(),
-          // );
-          return const NoteView();
+          return const Scaffold(
+            body: CircularProgressIndicator(),
+          );
         }
       },
     );
