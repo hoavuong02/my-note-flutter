@@ -1,9 +1,7 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/constant/routes.dart';
 import 'package:my_app/helpers/loading/loading_screen.dart';
-import 'package:my_app/services/auth/auth_service.dart';
 import 'package:my_app/services/auth/bloc/auth_bloc.dart';
 import 'package:my_app/services/auth/bloc/auth_events.dart';
 import 'package:my_app/services/auth/bloc/auth_state.dart';
@@ -14,10 +12,13 @@ import 'package:my_app/views/notes/forgot_password_view.dart';
 import 'package:my_app/views/notes/notes_view.dart';
 import 'package:my_app/views/register_view.dart';
 import 'package:my_app/views/verify_email_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(
     MaterialApp(
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

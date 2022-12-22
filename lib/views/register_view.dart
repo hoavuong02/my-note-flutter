@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_app/extensions/buildcontext/loc.dart';
 
-import 'package:my_app/constant/routes.dart';
 import 'package:my_app/services/auth/auth_exceptions.dart';
-import 'package:my_app/services/auth/auth_service.dart';
 import 'package:my_app/services/auth/bloc/auth_events.dart';
 
 import '../services/auth/bloc/auth_bloc.dart';
@@ -41,70 +40,77 @@ class _RegisterViewState extends State<RegisterView> {
       listener: (context, state) async {
         if (state is AuthStateRegistering) {
           if (state.exception is WeakPasswordAuthException) {
-            await showErrorDialog(context, 'Weak password');
+            await showErrorDialog(
+                context, context.loc.register_error_weak_password);
           } else if (state.exception is EmailAlreadyInUseAuthException) {
-            await showErrorDialog(context, 'Email is already in use');
+            await showErrorDialog(
+                context, context.loc.register_error_email_already_in_use);
           } else if (state.exception is GenericAuthException) {
-            await showErrorDialog(context, 'Failed to register');
+            await showErrorDialog(context, context.loc.register_error_generic);
           } else if (state.exception is InvalidEmailAuthException) {
-            await showErrorDialog(context, 'Invalid email');
+            await showErrorDialog(
+                context, context.loc.register_error_invalid_email);
           }
         }
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Register'),
+          title: Text(context.loc.register),
         ),
         body: Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Enter your email and password to see your notes!'),
-              TextField(
-                controller: _email,
-                enableSuggestions: false,
-                autocorrect: false,
-                autofocus: true,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(hintText: 'Enter your email'),
-              ),
-              TextField(
-                controller: _password,
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration:
-                    const InputDecoration(hintText: 'Enter your password'),
-              ),
-              Center(
-                child: Column(
-                  children: [
-                    TextButton(
-                      onPressed: () async {
-                        final email = _email.text;
-                        final password = _password.text;
-                        context.read<AuthBloc>().add(
-                              AuthEventRegister(
-                                email,
-                                password,
-                              ),
-                            );
-                      },
-                      child: const Text('register'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        context.read<AuthBloc>().add(
-                              const AuthEventLogOut(),
-                            );
-                      },
-                      child: const Text('Already registered? Login here'),
-                    )
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(context.loc.register_view_prompt),
+                TextField(
+                  controller: _email,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  autofocus: true,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                      hintText: context.loc.email_text_field_placeholder),
                 ),
-              ),
-            ],
+                TextField(
+                  controller: _password,
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                      hintText: context.loc.password_text_field_placeholder),
+                ),
+                Center(
+                  child: Column(
+                    children: [
+                      TextButton(
+                        onPressed: () async {
+                          final email = _email.text;
+                          final password = _password.text;
+                          context.read<AuthBloc>().add(
+                                AuthEventRegister(
+                                  email,
+                                  password,
+                                ),
+                              );
+                        },
+                        child: Text(context.loc.register),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(
+                                const AuthEventLogOut(),
+                              );
+                        },
+                        child:
+                            Text(context.loc.register_view_already_registered),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
